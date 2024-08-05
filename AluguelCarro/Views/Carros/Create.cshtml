@@ -33,11 +33,8 @@
                 <input asp-for="Placa" class="form-control" />
                 <span asp-validation-for="Placa" class="text-danger"></span>
             </div>
-            <div class="form-group form-check">
-                <label class="form-check-label">
-                    <input class="form-check-input" asp-for="Status" /> Alugado
-                </label>
-            </div>
+            <br>
+            <input type="hidden" asp-for="Status"/>
             <div class="form-group">
                 <input type="submit" value="Salvar" class="btn btn-primary" />
                 <a class="btn btn-secondary" asp-action="Index">Voltar</a>

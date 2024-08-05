@@ -22,7 +22,7 @@ namespace AluguelCarro.Controllers
             return View(await _context.Carro.ToListAsync());
         }
         
-        [Route("detalhes")]
+        [Route("detalhes/{id}")]
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -50,6 +50,8 @@ namespace AluguelCarro.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("Id,Modelo,Marca,AnoDeFabricacao,Placa,Status")] Carro carro)
         {
+            ModelState.Remove("Status");
+            
             if (ModelState.IsValid)
             {
                 _context.Add(carro);
@@ -59,7 +61,7 @@ namespace AluguelCarro.Controllers
             return View(carro);
         }
         
-        [Route("editar")]
+        [Route("editar/{id}")]
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -75,7 +77,7 @@ namespace AluguelCarro.Controllers
             return View(carro);
         }
         
-        [HttpPost("editar")]
+        [HttpPost("editar/{id}")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("Id,Modelo,Marca,AnoDeFabricacao,Placa,Status")] Carro carro)
         {
@@ -107,7 +109,7 @@ namespace AluguelCarro.Controllers
             return View(carro);
         }
         
-        [Route("deletar")]
+        [Route("deletar/{id}")]
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -125,7 +127,7 @@ namespace AluguelCarro.Controllers
             return View(carro);
         }
         
-        [HttpPost("deletar"), ActionName("Delete")]
+        [HttpPost("deletar/{id}"), ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
