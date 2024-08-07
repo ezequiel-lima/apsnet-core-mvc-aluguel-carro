@@ -12,4 +12,6 @@ public class ApplicationDbContext : IdentityDbContext
     }
 
 public DbSet<AluguelCarro.Models.Carro> Carro { get; set; } = default!;
+
+public DbSet<AluguelCarro.Models.Aluguel> Aluguel { get; set; } = default!;
 }

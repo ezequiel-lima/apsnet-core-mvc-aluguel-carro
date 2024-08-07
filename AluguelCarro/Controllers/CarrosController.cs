@@ -132,7 +132,7 @@ namespace AluguelCarro.Controllers
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             var carro = await _context.Carro.FindAsync(id);
-            if (carro != null)
+            if (carro != null && carro.Status == false)
             {
                 _context.Carro.Remove(carro);
             }

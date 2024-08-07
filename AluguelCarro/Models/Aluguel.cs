@@ -9,7 +9,10 @@ public class Aluguel
     [Key]
     public int Id { get; set; }
     
-    public DateTime DataAluguel => DateTime.UtcNow;
+    [Required(ErrorMessage = "O {0} é obrigatório.")]
+    [DataType(DataType.DateTime, ErrorMessage = "O campo {0} está em formato incorreto")]
+    [Display(Name = "Data de Devolução")]
+    public DateTime DataDevolucao { get; set; }
     
     [Required]
     [ForeignKey("Carro")]
