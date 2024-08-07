@@ -1,12 +1,9 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using AluguelCarro.Data;
 using AluguelCarro.Models;
+using Newtonsoft.Json;
 
 namespace AluguelCarro.Controllers
 {
@@ -94,6 +91,10 @@ namespace AluguelCarro.Controllers
             {
                 return NotFound();
             }
+            
+            var carroAnterior = _context.Carro.FirstOrDefault(x => x.Id == aluguel.CarroId);
+
+            TempData["CarroAnterior"] = JsonConvert.SerializeObject(carroAnterior);
             ViewData["CarroId"] = new SelectList(_context.Carro, "Id", "Marca", aluguel.CarroId);
             ViewData["UsuarioId"] = new SelectList(_context.Users, "Id", "UserName", aluguel.UsuarioId);
             return View(aluguel);
@@ -104,19 +105,33 @@ namespace AluguelCarro.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,CarroId,UsuarioId")] Aluguel aluguel)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,CarroId,UsuarioId,DataDevolucao")] Aluguel aluguel)
         {
             if (id != aluguel.Id)
             {
                 return NotFound();
             }
-
+            
+            ModelState.Remove("Usuario");
+            ModelState.Remove("Carro");
+            
             if (ModelState.IsValid)
             {
                 try
                 {
-                    _context.Update(aluguel);
-                    await _context.SaveChangesAsync();
+                    var carroAnterior = JsonConvert.DeserializeObject<Carro>(TempData["CarroAnterior"] as string ?? string.Empty);
+                    var carro = _context.Carro.FirstOrDefault(x => x.Id == aluguel.CarroId);
+                    
+                    
+                    if (carroAnterior.Status != carro.Status)
+                    {
+                        _context.Attach(carroAnterior);
+                        carroAnterior.Status = !carroAnterior.Status;
+                        carro.Status = !carro.Status;
+                        
+                        _context.Update(aluguel);
+                        await _context.SaveChangesAsync();
+                    }
                 }
                 catch (DbUpdateConcurrencyException)
                 {
