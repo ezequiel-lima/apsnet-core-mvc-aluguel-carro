@@ -1,13 +1,13 @@
 @model Aluguel
 
 @{
-    ViewData["Title"] = "Deletar";
+    ViewData["Title"] = "Finalizar ";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
 <h1>@ViewData["Title"]</h1>
 
-<h3>Tem certeza de que deseja excluir?</h3>
+<h3>Tem certeza de que deseja encerrar o aluguel?</h3>
 <div>
     <h4>Aluguel</h4>
     <hr />
@@ -34,7 +34,7 @@
     
     <form asp-action="Delete">
         <input type="hidden" asp-for="Id" />
-        <input type="submit" value="Deletar" class="btn btn-danger" /> 
+        <input type="submit" value="Encerrar aluguel" class="btn btn-primary" /> 
         <a asp-action="Index" class="btn btn-secondary">Voltar</a>
     </form>
 </div>

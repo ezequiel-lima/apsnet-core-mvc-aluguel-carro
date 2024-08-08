@@ -7,6 +7,7 @@ using Newtonsoft.Json;
 
 namespace AluguelCarro.Controllers
 {
+    [Route("alugueis")]
     public class AlugueisController : Controller
     {
         private readonly ApplicationDbContext _context;
@@ -15,15 +16,14 @@ namespace AluguelCarro.Controllers
         {
             _context = context;
         }
-
-        // GET: Alugueis
+        
         public async Task<IActionResult> Index()
         {
             var applicationDbContext = _context.Aluguel.Include(a => a.Carro).Include(a => a.Usuario);
             return View(await applicationDbContext.ToListAsync());
         }
 
-        // GET: Alugueis/Details/5
+        [Route("detalhes/{id}")]
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -43,18 +43,15 @@ namespace AluguelCarro.Controllers
             return View(aluguel);
         }
 
-        // GET: Alugueis/Create
+        [Route("criar")]
         public IActionResult Create()
         {
             ViewData["CarroId"] = new SelectList(_context.Carro, "Id", "Placa");
             ViewData["UsuarioId"] = new SelectList(_context.Users, "Id", "UserName");
             return View();
         }
-
-        // POST: Alugueis/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
+        
+        [HttpPost("criar")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("Id,CarroId,UsuarioId,DataDevolucao")] Aluguel aluguel)
         {
@@ -78,7 +75,7 @@ namespace AluguelCarro.Controllers
             return View(aluguel);
         }
 
-        // GET: Alugueis/Edit/5
+        [Route("editar/{id}")]
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -99,11 +96,8 @@ namespace AluguelCarro.Controllers
             ViewData["UsuarioId"] = new SelectList(_context.Users, "Id", "UserName", aluguel.UsuarioId);
             return View(aluguel);
         }
-
-        // POST: Alugueis/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
+        
+        [HttpPost("editar/{id}")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("Id,CarroId,UsuarioId,DataDevolucao")] Aluguel aluguel)
         {
@@ -122,8 +116,7 @@ namespace AluguelCarro.Controllers
                     var carroAnterior = JsonConvert.DeserializeObject<Carro>(TempData["CarroAnterior"] as string ?? string.Empty);
                     var carro = _context.Carro.FirstOrDefault(x => x.Id == aluguel.CarroId);
                     
-                    
-                    if (carroAnterior.Status != carro.Status)
+                    if (carro.Status != true)
                     {
                         _context.Attach(carroAnterior);
                         carroAnterior.Status = !carroAnterior.Status;
@@ -139,10 +132,8 @@ namespace AluguelCarro.Controllers
                     {
                         return NotFound();
                     }
-                    else
-                    {
-                        throw;
-                    }
+
+                    throw;
                 }
                 return RedirectToAction(nameof(Index));
             }
@@ -151,7 +142,7 @@ namespace AluguelCarro.Controllers
             return View(aluguel);
         }
 
-        // GET: Alugueis/Delete/5
+        [Route("deletar/{id}")]
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -170,9 +161,8 @@ namespace AluguelCarro.Controllers
 
             return View(aluguel);
         }
-
-        // POST: Alugueis/Delete/5
-        [HttpPost, ActionName("Delete")]
+        
+        [HttpPost("deletar/{id}"), ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {

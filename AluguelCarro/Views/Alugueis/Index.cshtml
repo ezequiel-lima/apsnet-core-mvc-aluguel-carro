@@ -12,24 +12,32 @@
 </p>
 <table class="table">
     <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.Carro)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Usuario)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.DataDevolucao)
-            </th>
-            <th></th>
-        </tr>
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Carro)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Carro.Placa)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Usuario)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.DataDevolucao)
+        </th>
+        <th></th>
+    </tr>
     </thead>
     <tbody>
-@foreach (var item in Model) {
+    @foreach (var item in Model)
+    {
         <tr>
             <td>
+                @Html.DisplayFor(modelItem => item.Carro.Modelo)
                 @Html.DisplayFor(modelItem => item.Carro.Marca)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Carro.Placa)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Usuario.UserName)
@@ -39,10 +47,10 @@
             </td>
             <td>
                 <a class="btn btn-info" asp-action="Edit" asp-route-id="@item.Id">Editar</a>
+                <a class="btn btn-primary" asp-action="Delete" asp-route-id="@item.Id">Finalizar</a>
                 <a class="btn btn-secondary" asp-action="Details" asp-route-id="@item.Id">Detalhes</a>
-                <a class="btn btn-danger" asp-action="Delete" asp-route-id="@item.Id">Deletar</a>
             </td>
         </tr>
-}
+    }
     </tbody>
 </table>
