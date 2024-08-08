@@ -92,7 +92,7 @@ namespace AluguelCarro.Controllers
             var carroAnterior = _context.Carro.FirstOrDefault(x => x.Id == aluguel.CarroId);
 
             TempData["CarroAnterior"] = JsonConvert.SerializeObject(carroAnterior);
-            ViewData["CarroId"] = new SelectList(_context.Carro, "Id", "Marca", aluguel.CarroId);
+            ViewData["CarroId"] = new SelectList(_context.Carro, "Id", "Placa", aluguel.CarroId);
             ViewData["UsuarioId"] = new SelectList(_context.Users, "Id", "UserName", aluguel.UsuarioId);
             return View(aluguel);
         }
