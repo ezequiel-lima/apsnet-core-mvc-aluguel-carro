@@ -1,6 +1,6 @@
 # ASP.NET CORE MVC de aluguel de Carros 
 
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://github.com/ezequiel-lima/gestao-de-cursos/blob/master/LICENSE.txt)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://github.com/ezequiel-lima/apsnet-core-mvc-aluguel-carro/blob/master/LICENSE.txt)
 
 O Projeto é uma aplicação web desenvolvida em .NET 8 com ASP.NET CORE MVC para gerenciar o aluguel de carros. 
 O sistema permite realizar operações CRUD (Create, Read, Update, Delete) para carros e aluguéis, e mantém uma integração entre estas operações para garantir a consistência dos dados.
